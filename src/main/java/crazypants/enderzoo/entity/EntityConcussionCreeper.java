@@ -5,8 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import crazypants.enderzoo.EnderZoo;
-import crazypants.enderzoo.Log;
+import crazypants.enderzoo.EnderZoo; 
 import crazypants.enderzoo.config.Config;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -36,7 +35,7 @@ public class EntityConcussionCreeper extends EntityCreeper implements IEnderZooM
       fTimeSinceIgnited = ReflectionHelper.findField(EntityCreeper.class, "timeSinceIgnited", "field_70833_d");
       fFuseTime = ReflectionHelper.findField(EntityCreeper.class, "fuseTime", "field_82225_f");
     } catch (Exception e) {
-      Log.error("Could not create ender creeper  logic as fields not found");
+      EnderZoo.instance.logger.error("Could not create ender creeper  logic as fields not found");
     }
   }
 

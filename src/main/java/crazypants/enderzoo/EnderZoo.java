@@ -3,10 +3,9 @@ package crazypants.enderzoo;
 import static crazypants.enderzoo.EnderZoo.MODID;
 import static crazypants.enderzoo.EnderZoo.MOD_NAME;
 import static crazypants.enderzoo.EnderZoo.VERSION;
- 
+import org.apache.logging.log4j.Logger;
 import crazypants.enderzoo.config.Config; 
-import crazypants.enderzoo.entity.MobInfo; 
-import crazypants.enderzoo.item.ItemForCreativeMenuIcon;  
+import crazypants.enderzoo.entity.MobInfo;  
 import crazypants.enderzoo.item.ItemSpawnEgg;  
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -25,7 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-@Mod(modid = MODID, name = MOD_NAME, version = VERSION, guiFactory = "crazypants.enderzoo.config.ConfigFactoryEnderZoo")
+@Mod(modid = MODID, name = MOD_NAME, version = VERSION )
 public class EnderZoo {
 
   public static final String MODID = "enderzoo";
@@ -39,8 +38,8 @@ public class EnderZoo {
   public static CommonProxy proxy;
 
   public static ItemSpawnEgg itemSpawnEgg;
- 
-  public static ItemForCreativeMenuIcon itemForCreativeMenuIcon;
+  
+  public Logger logger;
  
  
  
@@ -48,9 +47,8 @@ public class EnderZoo {
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
-
-    itemForCreativeMenuIcon = ItemForCreativeMenuIcon.create();
-
+    this.logger = event.getModLog();
+    
     Config.load(event);
     for (MobInfo mob : MobInfo.values()) {
       registerEntity(mob);

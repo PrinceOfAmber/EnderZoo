@@ -1,7 +1,5 @@
 package crazypants.enderzoo;
- 
-import crazypants.enderzoo.charge.EntityPrimedCharge;
-import crazypants.enderzoo.charge.RenderPrimedCharge;
+
 import crazypants.enderzoo.config.Config;
 import crazypants.enderzoo.entity.EntityConcussionCreeper;
 import crazypants.enderzoo.entity.EntityDireSlime;
@@ -21,8 +19,7 @@ import crazypants.enderzoo.entity.render.RenderFallenKnight;
 import crazypants.enderzoo.entity.render.RenderFallenMount;
 import crazypants.enderzoo.entity.render.RenderOwl;
 import crazypants.enderzoo.entity.render.RenderWitherCat;
-import crazypants.enderzoo.entity.render.RenderWitherWitch; 
-import crazypants.enderzoo.item.ItemForCreativeMenuIcon;  
+import crazypants.enderzoo.entity.render.RenderWitherWitch;  
 import crazypants.enderzoo.item.ItemSpawnEgg; 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
@@ -80,7 +77,7 @@ public class ClientProxy extends CommonProxy {
     if (Config.owlEnabled) {      
       RenderingRegistry.registerEntityRenderingHandler(EntityOwl.class, RenderOwl.FACTORY);
     }
-    RenderingRegistry.registerEntityRenderingHandler(EntityPrimedCharge.class, RenderPrimedCharge.FACTORY);    
+   // RenderingRegistry.registerEntityRenderingHandler(EntityPrimedCharge.class, RenderPrimedCharge.FACTORY);    
    
 
   }
@@ -89,8 +86,7 @@ public class ClientProxy extends CommonProxy {
   public void init() {
     super.init();
   
-    regRenderer(EnderZoo.itemForCreativeMenuIcon, ItemForCreativeMenuIcon.NAME);
-
+   
     //Color the spawn eggs
     IItemColor handler = new IItemColor() {
       @Override

@@ -4,8 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import crazypants.enderzoo.EnderZoo;
-import crazypants.enderzoo.Log;
+import crazypants.enderzoo.EnderZoo; 
 import net.minecraft.enchantment.Enchantment.Rarity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -171,17 +170,7 @@ public final class Config {
   public static int owlTimeBetweenEggsMax = 24000;
   public static int entityOwlEggId = 679991;
 
-  public static final Section sectionEnchants = new Section("Enchantments", "enchantments");
-  public static Rarity enchantmentWitherArrowRarity = Rarity.UNCOMMON;
-  public static int enchantmentWitherArrowDuration = 200;
-  public static int enchantmentWitherArrowMinEnchantability = 20;
-  public static int enchantmentWitherArrowMaxEnchantability = 50;
-
-  public static Rarity enchantmentWitherWeaponRarity = Rarity.UNCOMMON;
-  public static int enchantmentWitherWeaponDuration = 200;
-  public static int enchantmentWitherWeaponMinEnchantability = 20;
-  public static int enchantmentWitherWeaponMaxEnchantability = 50;
-
+ 
   public static final Section sectionCharges = new Section("Charges", "charges");
   public static int entityPrimedChargeId = 699998;
   public static boolean confusingChargeEnabled = true;
@@ -197,36 +186,8 @@ public final class Config {
   public static final Section sectionDebug = new Section("Debug", "debug");
   public static boolean spawnConfigPrintDetailedOutput = false;
 
-  public static final Section sectionGuardian = new Section("Guardian", "guardian");
-  public static boolean guardiansBowEnabled = true;
-  public static int guardiansBowDrawTime = 14;
-  public static float guardiansBowDamageBonus = 0f;
-  public static float guardiansBowForceMultiplier = 1.5f;
-  public static float guardiansBowFovMultiplier = 0.35F;
-
-  public static final Section sectionPotions = new Section("Potions", "potions");
-  
-  public static int witherPotionID = 71400;
-  public static int witherPotionLongID = 71401;
-  
-  public static int confusingPotionID = 71410;
-  public static int confusingPotionLongID = 71411;
-  
-  public static int floatingPotionID = 71420;
-  public static int floatingPotionLongID = 71421;
-  public static int floatingPotionTwoID = 71422;
-  
-  public static boolean floatingPotionEnabled = true;  
-  public static double floatingPotionSpeed = 0.15;
-  public static double floatingPotionAcceleration = 0.085;
-  public static int floatingPotionDuration = 70;
-  public static int floatingPotionDurationSplash = 50;
-  public static int floatingPotionDurationLong = 120;
-  public static int floatingPotionDurationLongSplash = 100;
-  public static double floatingPotionTwoSpeed = 1.2;
-  public static double floatingPotionTwoAcceleration = 0.3;
-  public static int floatingPotionTwoDuration = 12;
-  public static int floatingPotionTwoDurationSplash = 8;
+ 
+ 
 
   public static void load(FMLPreInitializationEvent event) {
     MinecraftForge.EVENT_BUS.register(new Config());
@@ -244,7 +205,7 @@ public final class Config {
     try {
       Config.processConfig(config);
     } catch (Exception e) {
-      Log.error("EnderZoo has a problem loading it's configuration");
+      EnderZoo.instance.logger.error("EnderZoo has a problem loading it's configuration");
       e.printStackTrace();
     } finally {
       if (config.hasChanged()) {
@@ -256,7 +217,7 @@ public final class Config {
   @SubscribeEvent
   public void onConfigChanged(OnConfigChangedEvent event) {
     if (event.getModID().equals(EnderZoo.MODID)) {
-      Log.info("Updating config...");
+    
       syncConfig();
     }
   }
@@ -450,43 +411,7 @@ public final class Config {
         .getInt(owlTimeBetweenEggsMax);
 
     entityOwlEggId = config.get(sectionOwl.name, "entityOwlEggId", entityOwlEggId, "ID for thrown owl egg Entity").getInt(entityOwlEggId);
-
-    String rareStr = config.get(sectionEnchants.name, "enchantmentWitherArrowWeight", enchantmentWitherArrowRarity.toString(),
-        "The rarity of the enchantment. COMMON, UNCOMMON, RARE, VERY_RARE ").getString();
-    try {
-      enchantmentWitherArrowRarity = Rarity.valueOf(rareStr);
-    } catch (Exception e) {
-      Log.warn("Could not set value config entry enchantmentWitherArrowRarity Specified value " + rareStr);
-      e.printStackTrace();
-    }
-
-    enchantmentWitherArrowDuration = config
-        .get(sectionEnchants.name, "enchantmentWitherArrowDuration", enchantmentWitherArrowDuration, "Duration of the wither effect in ticks")
-        .getInt(enchantmentWitherArrowDuration);
-    enchantmentWitherArrowMinEnchantability = config.get(sectionEnchants.name, "enchantmentWitherArrowMinEnchantability",
-        enchantmentWitherArrowMinEnchantability, "The minimum required enchantability level").getInt(enchantmentWitherArrowMinEnchantability);
-    enchantmentWitherArrowMaxEnchantability = config
-        .get(sectionEnchants.name, "enchantmentWitherArrowMaxEnchantability", enchantmentWitherArrowMaxEnchantability, "The maximum required level")
-        .getInt(enchantmentWitherArrowMaxEnchantability);
-   
-    rareStr = config.get(sectionEnchants.name, "enchantmentWitherWeaponWeight", enchantmentWitherWeaponRarity.toString(),
-        "The rarity of the enchantment. COMMON, UNCOMMON, RARE, VERY_RARE ").getString();
-    try {
-      enchantmentWitherWeaponRarity = Rarity.valueOf(rareStr);
-    } catch (Exception e) {
-      Log.warn("Could not set value config entry enchantmentWitherArrowRarity Specified value " + rareStr);
-      e.printStackTrace();
-    }
-    
-    enchantmentWitherWeaponDuration = config
-        .get(sectionEnchants.name, "enchantmentWitherWeaponDuration", enchantmentWitherWeaponDuration, "Duration of the wither effect in ticks")
-        .getInt(enchantmentWitherWeaponDuration);
-    enchantmentWitherWeaponMinEnchantability = config.get(sectionEnchants.name, "enchantmentWitherWeaponMinEnchantability",
-        enchantmentWitherWeaponMinEnchantability, "The minimum required enchantability level").getInt(enchantmentWitherWeaponMinEnchantability);
-    enchantmentWitherWeaponMaxEnchantability = config
-        .get(sectionEnchants.name, "enchantmentWitherWeaponMaxEnchantability", enchantmentWitherWeaponMaxEnchantability, "The maximum required level")
-        .getInt(enchantmentWitherWeaponMaxEnchantability);
-
+ 
     entityPrimedChargeId = config.get(sectionCharges.name, "entityPrimedChargeId", entityPrimedChargeId, "ID for charge entities").getInt(entityPrimedChargeId);
 
     confusingChargeEnabled = config.getBoolean("confusingChargeEnabled", sectionCharges.name, confusingChargeEnabled,
@@ -537,52 +462,7 @@ public final class Config {
 
     spawnConfigPrintDetailedOutput = config.getBoolean("spawnConfigPrintDetailedOutput", sectionDebug.name, spawnConfigPrintDetailedOutput,
         "When enabled detailed information about spawn config will be printed to the log.");
-
-    guardiansBowEnabled = config.getBoolean("guardiansBowEnabled", sectionGuardian.name, guardiansBowEnabled, "If false the Guardians Bow will be disabled");
-    guardiansBowDrawTime = config.get(sectionGuardian.name, "guardiansBowDrawTime", guardiansBowDrawTime,
-        "The number of ticks it takes to fully draw the guardians bow. A 'vanilla' bow takes 20 ticks.").getInt(guardiansBowDrawTime);
-    guardiansBowDamageBonus = (float) config
-        .get(sectionGuardian.name, "guardiansBowDamageBonus", guardiansBowDamageBonus, "The damage bonus applied to arrows fire from the bow.")
-        .getDouble(guardiansBowDamageBonus);
-    guardiansBowForceMultiplier = (float) config.get(sectionGuardian.name, "guardiansBowForceMultiplier", guardiansBowForceMultiplier,
-        "Effects the speed with which arrows leave the bow. A 'vanilla' bow has a multiplier of 2.").getDouble(guardiansBowForceMultiplier);
-    guardiansBowFovMultiplier = (float) config.get(sectionGuardian.name, "guardiansBowFovMultiplier", guardiansBowFovMultiplier,
-        "The reduction in FOV when the bow is fullen drawn (the zoom level). A 'vanilla' bow has a value of 0.15").getDouble(guardiansBowFovMultiplier);
-
-    witherPotionID = config.get(sectionPotions.name, "witherPotionID", witherPotionID, "Potion ID").getInt(witherPotionID); 
-    witherPotionLongID = config.get(sectionPotions.name, "witherPotionLongID", witherPotionLongID, "Potion ID").getInt(witherPotionLongID);
-    
-    confusingPotionID = config.get(sectionPotions.name, "confusingPotionID", confusingPotionID, "Potion ID").getInt(confusingPotionID);
-    confusingPotionLongID = config.get(sectionPotions.name, "confusingPotionLongID", confusingPotionLongID, "Potion ID").getInt(confusingPotionLongID);
-    
-    floatingPotionID = config.get(sectionPotions.name, "floatingPotionID", floatingPotionID, "Potion ID").getInt(floatingPotionID);
-    floatingPotionLongID = config.get(sectionPotions.name, "floatingPotionLongID", floatingPotionLongID, "Potion ID").getInt(floatingPotionLongID);
-    floatingPotionTwoID = config.get(sectionPotions.name, "floatingPotionTwoID", floatingPotionTwoID, "Potion ID").getInt(floatingPotionTwoID);
-
-    floatingPotionEnabled = config.getBoolean("floatingPotionEnabled", sectionPotions.name, floatingPotionEnabled,
-        "If false floating potions will be disabled");    
-    floatingPotionSpeed = config.get(sectionPotions.name, "floatingPotionSpeed", floatingPotionSpeed, "Max rising speed.").getDouble(floatingPotionSpeed);
-    floatingPotionAcceleration = config.get(sectionPotions.name, "floatingPotionAcceleration", floatingPotionAcceleration, "Vertical acceleration rate")
-        .getDouble(floatingPotionAcceleration);
-    floatingPotionDuration = config.get(sectionPotions.name, "floatingPotionDuration", floatingPotionDuration, "Effect duration (ticks)")
-        .getInt(floatingPotionDuration);
-    floatingPotionDurationSplash = config.get(sectionPotions.name, "floatingPotionDurationSplash", floatingPotionDurationSplash, "Effect duration (ticks)")
-        .getInt(floatingPotionDurationSplash);
-    floatingPotionDurationLong = config.get(sectionPotions.name, "floatingPotionDurationLong", floatingPotionDurationLong, "Effect duration (ticks)")
-        .getInt(floatingPotionDurationLong);
-    floatingPotionDurationLongSplash = config
-        .get(sectionPotions.name, "floatingPotionDurationLongSplash", floatingPotionDurationLongSplash, "Effect duration (ticks)")
-        .getInt(floatingPotionDurationLongSplash);
-    floatingPotionTwoSpeed = config.get(sectionPotions.name, "floatingPotionTwoSpeed", floatingPotionTwoSpeed, "Max rising speed.")
-        .getDouble(floatingPotionTwoSpeed);
-    floatingPotionTwoAcceleration = config
-        .get(sectionPotions.name, "floatingPotionTwoAcceleration", floatingPotionTwoAcceleration, "Vertical acceleration rate")
-        .getDouble(floatingPotionTwoAcceleration);
-    floatingPotionTwoDuration = config.get(sectionPotions.name, "floatingPotionTwoDuration", floatingPotionTwoDuration, "Effect duration (ticks)")
-        .getInt(floatingPotionTwoDuration);
-    floatingPotionTwoDurationSplash = config
-        .get(sectionPotions.name, "floatingPotionTwoDurationSplash", floatingPotionTwoDurationSplash, "Effect duration (ticks)")
-        .getInt(floatingPotionTwoDurationSplash);
+ 
 
   }
 
