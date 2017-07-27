@@ -173,16 +173,16 @@ public class EntityOwl extends EntityAnimal implements IFlyingMob {
     }
     wingRotation += wingRotDelta * flapSpeed;
      
-
-    if (!world.isRemote && !isChild() && --timeUntilNextEgg <= 0) {
-      if (isOnLeaves()) {
-        playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-        dropItem(EnderZoo.itemOwlEgg, 1);        
-      }
-      timeUntilNextEgg = getNextLayingTime();
-    }
-
-    
+//
+//    if (!world.isRemote && !isChild() && --timeUntilNextEgg <= 0) {
+//      if (isOnLeaves()) {
+//        playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+//        dropItem(EnderZoo.itemOwlEgg, 1);        
+//      }
+//      timeUntilNextEgg = getNextLayingTime();
+//    }
+//
+//    
     
     AxisAlignedBB movedBB = getEntityBoundingBox().offset(0, motionY, 0);
     BlockPos ep = getPosition();
@@ -391,7 +391,7 @@ public class EntityOwl extends EntityAnimal implements IFlyingMob {
   }
 
   @Override
-  protected SoundEvent getHurtSound() {    
+  protected SoundEvent getHurtSound(DamageSource s) {    
     return SND_HURT;
   }
 

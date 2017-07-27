@@ -56,12 +56,14 @@ public class ItemSpawnEgg extends Item {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+  public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
     for (MobInfo mob : MobInfo.values()) {
       if(mob.isEnabled()) {
-        list.add(new ItemStack(item, 1, mob.ordinal()));
+        list.add(new ItemStack(this, 1, mob.ordinal()));
       }
     }
+
+
   }
 
   @Override

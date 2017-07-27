@@ -1,8 +1,5 @@
 package crazypants.enderzoo;
-
-import crazypants.enderzoo.charge.BlockConcussionCharge;
-import crazypants.enderzoo.charge.BlockConfusingCharge;
-import crazypants.enderzoo.charge.BlockEnderCharge;
+ 
 import crazypants.enderzoo.charge.EntityPrimedCharge;
 import crazypants.enderzoo.charge.RenderPrimedCharge;
 import crazypants.enderzoo.config.Config;
@@ -12,28 +9,21 @@ import crazypants.enderzoo.entity.EntityDireWolf;
 import crazypants.enderzoo.entity.EntityEnderminy;
 import crazypants.enderzoo.entity.EntityFallenKnight;
 import crazypants.enderzoo.entity.EntityFallenMount;
-import crazypants.enderzoo.entity.EntityOwl;
-import crazypants.enderzoo.entity.EntityOwlEgg;
+import crazypants.enderzoo.entity.EntityOwl; 
 import crazypants.enderzoo.entity.EntityWitherCat;
 import crazypants.enderzoo.entity.EntityWitherWitch;
 import crazypants.enderzoo.entity.MobInfo;
 import crazypants.enderzoo.entity.render.RenderConcussionCreeper;
 import crazypants.enderzoo.entity.render.RenderDireSlime;
 import crazypants.enderzoo.entity.render.RenderDirewolf;
-import crazypants.enderzoo.entity.render.RenderEnderminy;
-import crazypants.enderzoo.entity.render.RenderEntityOwlEgg;
+import crazypants.enderzoo.entity.render.RenderEnderminy; 
 import crazypants.enderzoo.entity.render.RenderFallenKnight;
 import crazypants.enderzoo.entity.render.RenderFallenMount;
 import crazypants.enderzoo.entity.render.RenderOwl;
 import crazypants.enderzoo.entity.render.RenderWitherCat;
-import crazypants.enderzoo.entity.render.RenderWitherWitch;
-import crazypants.enderzoo.item.ItemConfusingDust;
-import crazypants.enderzoo.item.ItemEnderFragment;
-import crazypants.enderzoo.item.ItemForCreativeMenuIcon;
-import crazypants.enderzoo.item.ItemGuardiansBow;
-import crazypants.enderzoo.item.ItemOwlEgg;
-import crazypants.enderzoo.item.ItemSpawnEgg;
-import crazypants.enderzoo.item.ItemWitheringDust;
+import crazypants.enderzoo.entity.render.RenderWitherWitch; 
+import crazypants.enderzoo.item.ItemForCreativeMenuIcon;  
+import crazypants.enderzoo.item.ItemSpawnEgg; 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -91,18 +81,14 @@ public class ClientProxy extends CommonProxy {
       RenderingRegistry.registerEntityRenderingHandler(EntityOwl.class, RenderOwl.FACTORY);
     }
     RenderingRegistry.registerEntityRenderingHandler(EntityPrimedCharge.class, RenderPrimedCharge.FACTORY);    
-    RenderingRegistry.registerEntityRenderingHandler(EntityOwlEgg.class, RenderEntityOwlEgg.FACTORY);
+   
 
   }
 
   @Override
   public void init() {
     super.init();
-
-    regRenderer(EnderZoo.itemWitheringDust, ItemWitheringDust.NAME);
-    regRenderer(EnderZoo.itemConfusingDust, ItemConfusingDust.NAME);
-    regRenderer(EnderZoo.itemEnderFragment, ItemEnderFragment.NAME);
-    regRenderer(EnderZoo.itemOwlEgg, ItemOwlEgg.NAME);
+  
     regRenderer(EnderZoo.itemForCreativeMenuIcon, ItemForCreativeMenuIcon.NAME);
 
     //Color the spawn eggs
@@ -122,20 +108,7 @@ public class ClientProxy extends CommonProxy {
         regRenderer(EnderZoo.itemSpawnEgg, inf.ordinal(), ItemSpawnEgg.NAME);
       }
     }
-
-    if (Config.guardiansBowEnabled) {
-      regRenderer(EnderZoo.itemGuardiansBow, ItemGuardiansBow.NAME);
-    }
-    if (Config.confusingChargeEnabled) {
-      regRenderer(Item.getItemFromBlock(EnderZoo.blockConfusingCharge), BlockConfusingCharge.NAME);
-    }
-    if (Config.concussionChargeEnabled) {
-      regRenderer(Item.getItemFromBlock(EnderZoo.blockConcussionCharge), BlockConcussionCharge.NAME);
-    }
-    if (Config.enderChargeEnabled) {
-      regRenderer(Item.getItemFromBlock(EnderZoo.blockEnderCharge), BlockEnderCharge.NAME);
-    }
-    
+ 
   }
 
   private void regRenderer(Item item, int meta, String name) {

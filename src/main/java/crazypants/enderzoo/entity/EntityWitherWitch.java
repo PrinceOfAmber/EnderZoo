@@ -9,7 +9,6 @@ import crazypants.enderzoo.EnderZoo;
 import crazypants.enderzoo.config.Config;
 import crazypants.enderzoo.entity.EntityWitherCat.GrowthMode;
 import crazypants.enderzoo.entity.ai.EntityAIRangedAttack;
-import crazypants.enderzoo.potion.BrewingUtil;
 import crazypants.enderzoo.vec.Point3i;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -48,15 +47,7 @@ public class EntityWitherWitch extends EntityMob implements IRangedAttackMob, IE
   public static final int EGG_BG_COL = 0x26520D;
   public static final int EGG_FG_COL = 0x905E43;
 
-  private ItemStack[] drops = new ItemStack[] {
-      new ItemStack(EnderZoo.itemWitheringDust),
-      new ItemStack(EnderZoo.itemWitheringDust),
-      new ItemStack(EnderZoo.itemWitheringDust),
-      BrewingUtil.createHealthPotion(false, false, true),
-      BrewingUtil.createWitherPotion(false, true),
-      BrewingUtil.createWitherPotion(false, true),
-      BrewingUtil.createRegenerationPotion(false, false, true)
-  };
+ 
 
   private int attackTimer;
   private EntityLivingBase attackedWithPotion;
@@ -96,7 +87,8 @@ public class EntityWitherWitch extends EntityMob implements IRangedAttackMob, IE
   protected float applyPotionDamageCalculations(DamageSource damageSource, float damage) {
     //same as a vanilla witch
     damage = super.applyPotionDamageCalculations(damageSource, damage);
-    if(damageSource.getEntity() == this) {
+ 
+    if(damageSource.getTrueSource() == this) {
       damage = 0.0F;
     }
     if(damageSource.isMagicDamage()) {
@@ -116,10 +108,10 @@ public class EntityWitherWitch extends EntityMob implements IRangedAttackMob, IE
     if(lootingLevel > 0) {
       numDrops += rand.nextInt(lootingLevel + 1);
     }
-    for (int i = 0; i < numDrops; ++i) {
-      ItemStack item = drops[rand.nextInt(drops.length)].copy();
-      entityDropItem(item, 0);
-    }
+//    for (int i = 0; i < numDrops; ++i) {
+//      ItemStack item = drops[rand.nextInt(drops.length)].copy();
+//      entityDropItem(item, 0);
+//    }
   }
 
   @Override
@@ -130,7 +122,7 @@ public class EntityWitherWitch extends EntityMob implements IRangedAttackMob, IE
 
   @Override
   public void setRevengeTarget(EntityLivingBase target) {
-    EntityLivingBase curTarget = getAITarget();
+    EntityLivingBase curTarget = this.getActiveTarget();
     super.setRevengeTarget(target);
     if(curTarget == target || world.isRemote || target == null) {
       return;
@@ -180,23 +172,23 @@ public class EntityWitherWitch extends EntityMob implements IRangedAttackMob, IE
     }
 
     if(shouldStartHeal()) {
-      ItemStack potion;
-      if(rand.nextFloat() > 0.75) {
-        potion = BrewingUtil.createRegenerationPotion(false, true, true);
-      } else {
-        potion = BrewingUtil.createHealthPotion(false, false, true);
-      }
-      setItemStackToSlot(EntityEquipmentSlot.MAINHAND, potion);
+//      ItemStack potion;
+//      if(rand.nextFloat() > 0.75) {
+//        potion = BrewingUtil.createRegenerationPotion(false, true, true);
+//      } else {
+//        potion = BrewingUtil.createHealthPotion(false, false, true);
+//      }
+//      setItemStackToSlot(EntityEquipmentSlot.MAINHAND, potion);
       healTimer = 10;
       isHealing = true;
     } else if(target != null && getHeldItem(EnumHand.MAIN_HAND).isEmpty()) {
-      ItemStack potion;
-      if(getActiveTarget().isPotionActive(MobEffects.WITHER)) {
-        potion = BrewingUtil.createHarmingPotion(EntityUtil.isHardDifficulty(world), true);
-      } else {
-        potion = BrewingUtil.createWitherPotion(false, true);
-      }
-      setItemStackToSlot(EntityEquipmentSlot.MAINHAND, potion);
+//      ItemStack potion;
+//      if(getActiveTarget().isPotionActive(MobEffects.WITHER)) {
+//        potion = BrewingUtil.createHarmingPotion(EntityUtil.isHardDifficulty(world), true);
+//      } else {
+//        potion = BrewingUtil.createWitherPotion(false, true);
+//      }
+//      setItemStackToSlot(EntityEquipmentSlot.MAINHAND, potion);
       attackTimer = 10;
       healTimer = 40;
     } else if(noActiveTargetTime > 40 && !isHealing && getHeldItem(EnumHand.MAIN_HAND).isEmpty() == false) {
@@ -255,7 +247,7 @@ public class EntityWitherWitch extends EntityMob implements IRangedAttackMob, IE
     EntityPotion entitypotion = new EntityPotion(world, this, potion);
     Vec3d lookVec = getLookVec();
 
-    entitypotion.setThrowableHeading(lookVec.xCoord * 0.5, -1, lookVec.zCoord * 0.5, 0.75F, 1.0F);
+    entitypotion.setThrowableHeading(lookVec.x * 0.5, -1, lookVec.z * 0.5, 0.75F, 1.0F);
     world.spawnEntity(entitypotion);
     setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
     healTimer = 80;
@@ -356,9 +348,10 @@ public class EntityWitherWitch extends EntityMob implements IRangedAttackMob, IE
     if(noActiveTargetTime > 40) {
       pacifyCats();
       return;
-    }
+    } 
+    
     EntityLivingBase currentTarget = getActiveTarget();
-    EntityLivingBase hitBy = getAITarget();
+    EntityLivingBase hitBy = getActiveTarget();
     if(hitBy == null) {
       //agro the cats if we have been hit or we have actually thrown a potion
       hitBy = attackedWithPotion;
@@ -387,6 +380,12 @@ public class EntityWitherWitch extends EntityMob implements IRangedAttackMob, IE
         }
       }
     }
+  }
+
+  @Override
+  public void setSwingingArms(boolean swingingArms) {
+
+
   }
 
 }
